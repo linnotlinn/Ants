@@ -128,7 +128,7 @@ class Ant(Insect):
                 place.ant = self   
             else:
                 assert place.ant is None, 'Too many ants in {0}'.format(place)
-            Insect.add_to(self, place)
+        Insect.add_to(self, place)
             # END Problem 8b
             
 
@@ -191,16 +191,16 @@ class ThrowerAnt(Ant):
         """
         # BEGIN Problem 3 and 4    
         def helper(place, count):
-            if count < self.lower_bound:
+            if place.is_hive:
+                return None
+            elif count < self.lower_bound:
                 return helper(place.entrance, count+1)
             elif count > self.upper_bound:
                 return None
             else:
-                while not place.is_hive:
-                    if place.bees:
-                        return random_bee(place.bees)
-                    return helper(place.entrance, count+1)
-                return None
+                if place.bees:
+                    return random_bee(place.bees)
+                return helper(place.entrance, count+1)
         return helper(self.place, 0)
         
         # END Problem 3 and 4
@@ -389,7 +389,7 @@ class BodyguardAnt(ContainerAnt):
     food_cost = 4
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 8c
-    implemented = True   # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
     
     def __init__(self, health = 2):
         super().__init__(health)
